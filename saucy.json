@@ -1,0 +1,60 @@
+{
+  "builders": [
+    {
+      "type": "vmware",
+      "iso_url": "http://releases.ubuntu.com/13.10/ubuntu-13.10-server-amd64.iso",
+      "iso_checksum": "4d1a8b720cdd14b76ed9410c63a00d0e",
+      "iso_checksum_type": "md5",
+      "tools_upload_flavor": "linux",
+      "ssh_username": "vagrant",
+      "ssh_password": "packer",
+      "http_directory": "preseed",
+      "output_directory": "output-saucy",
+      "headless": false,
+      "boot_command": [
+        "<esc> ",
+        "<esc> ",
+        "<enter> ",
+        "<wait> ",
+        "install ",
+        "locale=en_US ",
+        "url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/saucy.cfg ",
+        "priority=critical ",
+        "debconf/frontend=noninteractive ",
+        "<enter>"
+      ],
+      "shutdown_command": "sudo shutdown -P now",
+      "vmx_data": {
+        "vhv.enable": "true"
+      }
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "file",
+      "source": "files/vmhgfs-d_count-kernel-3.11-tools-9.6.0.patch",
+      "destination": "/tmp/vmhgfs-d_count-kernel-3.11-tools-9.6.0.patch"
+    },
+    {
+      "type": "file",
+      "source": "files/vmware_hgfs_fix11.sh",
+      "destination": "/tmp/vmware_hgfs_fix11.sh"
+    },
+    {
+      "type": "file",
+      "source": "files/vagrant.pub",
+      "destination": "/tmp/vagrant.pub"
+    },
+    {
+      "type": "shell",
+      "script": "files/saucy-tools.sh"
+    },
+    {
+      "type": "shell",
+      "script": "files/vagrant-ssh.sh"
+    }
+  ],
+  "post-processors": [
+    "vagrant"
+  ]
+}
