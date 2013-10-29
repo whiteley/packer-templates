@@ -23,6 +23,7 @@
         "debconf/frontend=noninteractive ",
         "<enter>"
       ],
+      "shutdown_command": "sudo shutdown -P now",
       "vmx_data": {
         "vhv.enable": "true"
       }

@@ -15,6 +15,6 @@ bash /tmp/vmware_hgfs_fix.sh
 bash /tmp/vmware_vmci_fix.sh
 popd
 sudo /tmp/vmware-tools-distrib/vmware-install.pl --default
-rm -rf /tmp/vmware-tools/distrib
+rm -rf /tmp/vmware-tools-distrib
 sudo umount /mnt/vmware-tools
 sudo rmdir /mnt/vmware-tools
