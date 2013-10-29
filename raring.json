@@ -9,7 +9,6 @@
       "ssh_username": "vagrant",
       "ssh_password": "packer",
       "http_directory": "preseed",
-      "output_directory": "output-raring",
       "headless": false,
       "boot_command": [
         "<esc> ",
@@ -18,7 +17,7 @@
         "<wait> ",
         "install ",
         "locale=en_US ",
-        "url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/raring.cfg ",
+        "url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ubuntu.cfg ",
         "priority=critical ",
         "debconf/frontend=noninteractive ",
         "<enter>"
