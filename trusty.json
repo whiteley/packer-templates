@@ -3,8 +3,8 @@
     {
       "type": "vmware",
       "iso_url": "http://cdimage.ubuntu.com/ubuntu-server/daily/current/trusty-server-amd64.iso",
-      "iso_checksum": "22294691e7e35c5a1b6049d02c5cb265",
-      "iso_checksum_type": "md5",
+      "iso_checksum": "971a9c10ed3ae23259eff51b8c1803af0814ccb5d937b86eda2260dbf6a7743c",
+      "iso_checksum_type": "sha256",
       "tools_upload_flavor": "linux",
       "ssh_username": "vagrant",
       "ssh_password": "packer",
