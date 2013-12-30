@@ -1,0 +1,59 @@
+{
+  "builders": [
+    {
+      "type": "vmware",
+      "iso_url": "http://cdimage.ubuntu.com/ubuntu-server/daily/current/trusty-server-amd64.iso",
+      "iso_checksum": "22294691e7e35c5a1b6049d02c5cb265",
+      "iso_checksum_type": "md5",
+      "tools_upload_flavor": "linux",
+      "ssh_username": "vagrant",
+      "ssh_password": "packer",
+      "http_directory": "preseed",
+      "headless": false,
+      "boot_command": [
+        "<esc> ",
+        "<esc> ",
+        "<enter> ",
+        "<wait> ",
+        "install ",
+        "locale=en_US ",
+        "url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ubuntu.cfg ",
+        "priority=critical ",
+        "debconf/frontend=noninteractive ",
+        "<enter>"
+      ],
+      "shutdown_command": "sudo shutdown -P now",
+      "vmx_data": {
+        "vhv.enable": "true"
+      }
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "file",
+      "source": "files/vmhgfs-uid-gid-kernel-3.12-tools-9.6.1.patch",
+      "destination": "/tmp/vmhgfs-uid-gid-kernel-3.12-tools-9.6.1.patch"
+    },
+    {
+      "type": "file",
+      "source": "files/vmware_hgfs_fix12.sh",
+      "destination": "/tmp/vmware_hgfs_fix12.sh"
+    },
+    {
+      "type": "file",
+      "source": "files/vagrant.pub",
+      "destination": "/tmp/vagrant.pub"
+    },
+    {
+      "type": "shell",
+      "script": "files/trusty-tools.sh"
+    },
+    {
+      "type": "shell",
+      "script": "files/vagrant-ssh.sh"
+    }
+  ],
+  "post-processors": [
+    "vagrant"
+  ]
+}
