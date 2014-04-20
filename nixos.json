@@ -1,0 +1,46 @@
+{
+  "variables": {
+    "headless": "true",
+    "nixos_version": "14.04pre42251.552d66c",
+    "nixos_url": "http://releases.nixos.org/nixos/unstable"
+  },
+  "builders": [
+    {
+      "name": "nixos-{{user `nixos_version`}}",
+      "type": "vmware-iso",
+      "iso_url": "{{user `nixos_url`}}/nixos-{{user `nixos_version`}}/nixos-minimal-{{user `nixos_version`}}-x86_64-linux.iso",
+      "iso_checksum": "a353d41cc55a0ecff43d0a2affffa1ad",
+      "iso_checksum_type": "md5",
+      "tools_upload_flavor": "linux",
+      "ssh_username": "root",
+      "ssh_key_path": "/Users/mwhiteley/.ssh/vagrant",
+      "http_directory": "files",
+      "headless": "{{user `headless`}}",
+      "boot_wait": "30s",
+      "boot_command": [
+        "<wait10>",
+        "root","<enter>",
+        "curl -o /tmp/vagrant.pub http://{{ .HTTPIP }}:{{ .HTTPPort }}/vagrant.pub","<enter>",
+        "install -d -m0755 /etc/ssh/authorized_keys.d","<enter>",
+        "install -m0600 /tmp/vagrant.pub /etc/ssh/authorized_keys.d/root","<enter>",
+        "systemctl start sshd","<enter>",
+        "exit","<enter>"
+      ],
+      "shutdown_command": "shutdown -h +1 && pkill sshd"
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "file",
+      "source": "files/configuration.nix",
+      "destination": "/tmp/configuration.nix"
+    },
+    {
+      "type": "shell",
+      "script": "files/nixos.sh"
+    }
+  ],
+  "post-processors": [
+    "vagrant"
+  ]
+}
