@@ -21,6 +21,8 @@ nix.useChroot = true;
 
 nixpkgs.config.allowUnfree = true;
 
+security.sudo.wheelNeedsPassword = false;
+
 services.avahi.enable = true;
 services.avahi.nssmdns = true;
 services.haveged.enable = true;
@@ -28,6 +30,7 @@ services.openssh.enable = true;
 
 users.extraUsers.vagrant = {
   description = "Vagrant user";
+  password = "vagrant";
   group = "users";
   extraGroups = [ "wheel" ];
   home = "/home/vagrant";
