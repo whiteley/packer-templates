@@ -7,14 +7,13 @@
   },
   "builders": [
     {
-      "name": "nixos-{{user `nixos_version`}}_virtualbox",
+      "vm_name": "nixos-{{user `nixos_version`}}",
       "type": "virtualbox-iso",
       "iso_url": "{{user `nixos_url`}}/nixos-{{user `nixos_version`}}/nixos-minimal-{{user `nixos_version`}}-x86_64-linux.iso",
       "iso_checksum": "{{user `nixos_md5`}}",
       "iso_checksum_type": "md5",
       "guest_os_type": "Linux_64",
       "hard_drive_interface": "sata",
-      "vm_name": "nixos-{{user `nixos_version`}}",
       "ssh_username": "root",
       "ssh_key_path": "/Users/mwhiteley/.ssh/vagrant",
       "http_directory": "files",
@@ -29,17 +28,16 @@
         "systemctl start sshd","<enter>",
         "exit","<enter>"
       ],
-      "shutdown_command": "shutdown -h +1 && pkill sshd"
+      "shutdown_command": "shutdown -P +1 && pkill sshd"
     },
     {
-      "name": "nixos-{{user `nixos_version`}}_vmware",
+      "vm_name": "nixos-{{user `nixos_version`}}",
       "type": "vmware-iso",
       "iso_url": "{{user `nixos_url`}}/nixos-{{user `nixos_version`}}/nixos-minimal-{{user `nixos_version`}}-x86_64-linux.iso",
       "iso_checksum": "{{user `nixos_md5`}}",
       "iso_checksum_type": "md5",
       "guest_os_type": "other3xlinux-64",
       "tools_upload_flavor": "linux",
-      "vm_name": "nixos-{{user `nixos_version`}}",
       "ssh_username": "root",
       "ssh_key_path": "/Users/mwhiteley/.ssh/vagrant",
       "http_directory": "files",
@@ -54,7 +52,7 @@
         "systemctl start sshd","<enter>",
         "exit","<enter>"
       ],
-      "shutdown_command": "shutdown -h +1 && pkill sshd"
+      "shutdown_command": "shutdown -P +1 && pkill sshd"
     }
   ],
   "provisioners": [
