@@ -15,4 +15,5 @@ mkfs.ext4 -L nixos ${partn}
 mount ${partn} /mnt
 nixos-generate-config --root /mnt
 mv /tmp/configuration.nix /mnt/etc/nixos/configuration.nix
+mv /tmp/vagrant-networks.nix /mnt/etc/nixos/vagrant-networks.nix
 nixos-install

@@ -36,6 +36,11 @@
       "destination": "/tmp/configuration.nix"
     },
     {
+      "type": "file",
+      "source": "files/vagrant-networks.nix",
+      "destination": "/tmp/vagrant-networks.nix"
+    },
+    {
       "type": "shell",
       "script": "files/nixos.sh"
     }
