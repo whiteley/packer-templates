@@ -16,6 +16,8 @@ i18n = {
   defaultLocale = "en_US.UTF-8";
 };
 
+networking.hostName = "vagrant-nixos-14.04";
+
 nix.distributedBuilds = true;
 nix.useChroot = true;
 
