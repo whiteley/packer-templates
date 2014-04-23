@@ -1,0 +1,77 @@
+{
+  "variables": {
+    "headless": "true",
+    "nixos_md5": "a353d41cc55a0ecff43d0a2affffa1ad",
+    "nixos_url": "http://releases.nixos.org/nixos/unstable",
+    "nixos_version": "14.04pre42251.552d66c"
+  },
+  "builders": [
+    {
+      "vm_name": "nixos-{{user `nixos_version`}}",
+      "type": "virtualbox-iso",
+      "iso_url": "{{user `nixos_url`}}/nixos-{{user `nixos_version`}}/nixos-minimal-{{user `nixos_version`}}-x86_64-linux.iso",
+      "iso_checksum": "{{user `nixos_md5`}}",
+      "iso_checksum_type": "md5",
+      "guest_os_type": "Linux_64",
+      "hard_drive_interface": "sata",
+      "ssh_username": "root",
+      "ssh_key_path": "/Users/mwhiteley/.ssh/vagrant",
+      "http_directory": "files",
+      "headless": "{{user `headless`}}",
+      "boot_wait": "30s",
+      "boot_command": [
+        "<wait10>",
+        "root","<enter>",
+        "curl -o /tmp/vagrant.pub http://{{ .HTTPIP }}:{{ .HTTPPort }}/vagrant.pub","<enter>",
+        "install -d -m0755 /etc/ssh/authorized_keys.d","<enter>",
+        "install -m0600 /tmp/vagrant.pub /etc/ssh/authorized_keys.d/root","<enter>",
+        "systemctl start sshd","<enter>",
+        "exit","<enter>"
+      ],
+      "shutdown_command": "shutdown -P +1 && pkill sshd"
+    },
+    {
+      "vm_name": "nixos-{{user `nixos_version`}}",
+      "type": "vmware-iso",
+      "iso_url": "{{user `nixos_url`}}/nixos-{{user `nixos_version`}}/nixos-minimal-{{user `nixos_version`}}-x86_64-linux.iso",
+      "iso_checksum": "{{user `nixos_md5`}}",
+      "iso_checksum_type": "md5",
+      "guest_os_type": "other3xlinux-64",
+      "tools_upload_flavor": "linux",
+      "ssh_username": "root",
+      "ssh_key_path": "/Users/mwhiteley/.ssh/vagrant",
+      "http_directory": "files",
+      "headless": "{{user `headless`}}",
+      "boot_wait": "30s",
+      "boot_command": [
+        "<wait10>",
+        "root","<enter>",
+        "curl -o /tmp/vagrant.pub http://{{ .HTTPIP }}:{{ .HTTPPort }}/vagrant.pub","<enter>",
+        "install -d -m0755 /etc/ssh/authorized_keys.d","<enter>",
+        "install -m0600 /tmp/vagrant.pub /etc/ssh/authorized_keys.d/root","<enter>",
+        "systemctl start sshd","<enter>",
+        "exit","<enter>"
+      ],
+      "shutdown_command": "shutdown -P +1 && pkill sshd"
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "file",
+      "source": "files/configuration.nix",
+      "destination": "/tmp/configuration.nix"
+    },
+    {
+      "type": "file",
+      "source": "files/vagrant-networks.nix",
+      "destination": "/tmp/vagrant-networks.nix"
+    },
+    {
+      "type": "shell",
+      "script": "files/nixos.sh"
+    }
+  ],
+  "post-processors": [
+    "vagrant"
+  ]
+}
